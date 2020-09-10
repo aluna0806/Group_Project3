@@ -2,7 +2,7 @@ mapboxgl.accessToken = API_KEY ;
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
-    center: [-73.935242,  40.730610], // starting position [lng, lat]
+    center: [-115.172813,  36.114647], // starting position [lng, lat]
     zoom: 10 // starting zoom
 });
 
