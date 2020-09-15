@@ -41,6 +41,10 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     // Create a layer group made from the bike markers array, pass it into the createMap function
     onestar_layer = L.layerGroup(onestar_markers.slice(50,500));
     twostar_layer = L.layerGroup(twostar_markers.slice(50,500));
+    threestar_layer = L.layerGroup(threestar_markers.slice(50,500));
+    fourstar_layer = L.layerGroup(fourstar_markers.slice(50,500));
+    fivestar_layer = L.layerGroup(fivestar_markers.slice(50,500));
+
 
     var streetsMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -57,6 +61,9 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     var overlayMaps = {
         "One Star Restaurants": onestar_layer,
         "Two Star Restaurants": twostar_layer,
+        "Three Star Restaurants": threestar_layer,
+        "Four Star Restaurants": fourstar_layer,
+        "Five Star Restaurants": fivestar_layer
     };
 
     // Create Map
@@ -66,6 +73,10 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
         layers: [
             streetsMap, 
             onestar_layer,
+            twostar_layer,
+            threestar_layer,
+            fourstar_layer,
+            fivestar_layer
         ]
     });
 
