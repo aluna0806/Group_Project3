@@ -11,7 +11,7 @@ conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 ​
 # Connect to a database. Will create one if not already available.
-db = client.CitiBike
+db = client.yelp_db
 ​
 # Create an instance of our Flask app.
 app = Flask(__name__)
