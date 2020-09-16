@@ -1,7 +1,12 @@
 // Call Data and Start Functions Setup
 d3.csv("Data/yelpdata.csv", function (error, data) {
-    data = data.filter(data => data.city.includes("Las Vegas"))
+    // data = data.filter(data => data.city.contains("Charlotte", "Phoenix", "Las Vegas", "Toronto"))
+    data = data.filter(data => data.city.includes("Las Vegas" && "Charlotte"))
     console.log(data.length)
+    
+    // if(data = data.filter(data => data.city.includes("Las Vegas" && data.city.includes("Las Vegas")) {
+    //     console.log("yes");    
+    // }
 
     var onestar_markers = []
     var twostar_markers = []
@@ -12,12 +17,12 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     data.forEach(data => {
         if (data.stars >= 1 & data.stars < 2){
             var newMarker = L.marker([data.latitude, data.longitude])
-            .bindPopup("Gordon Ramsey would be furious!");
+            .bindPopup("");
             onestar_markers.push(newMarker)
         }
         else if (data.stars >= 2 & data.stars < 3){
             var newMarker = L.marker([data.latitude, data.longitude])
-            .bindPopup("");
+            .bindPopup("Gordon Ramsey would be furious!");
             twostar_markers.push(newMarker)
         }
         else if (data.stars >= 3 & data.stars < 4){
@@ -27,12 +32,12 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
         }
         else if (data.stars >= 4 & data.stars < 5){
             var newMarker = L.marker([data.latitude, data.longitude])
-            .bindPopup("");
+            .bindPopup("Gordon Ramsey Approves!");
             fourstar_markers.push(newMarker)
         }
         else if (data.stars >= 5){
             var newMarker = L.marker([data.latitude, data.longitude])
-            .bindPopup("Gordon Ramsey Approves!")
+            .bindPopup("")
             fivestar_markers.push(newMarker)
         }
     }); 
@@ -49,12 +54,20 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     var streetsMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
-        id: "light-v10",
+        id: "streets-v11",
         accessToken: API_KEY
     });
-
+        // Add Dark Visual Mode option
+        var darklayer = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+            attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+            maxZoom: 18,
+            id: "dark-v10",
+            accessToken: API_KEY
+    });     
+    
     var baseMaps = {
         "Streets Map": streetsMap,
+        "Dark Mode" : darklayer
     };
 
     // Define OverlayMaps
@@ -68,10 +81,11 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
 
     // Create Map
     var myMap = L.map("map", {
-        center: [41.114647, -115.172813], // Starting at Las Vegas
-        zoom: 5,
+        center: [41.5,-99.9], // t20
+        zoom: 4,
         layers: [
-            streetsMap, 
+            streetsMap,
+            darklayer, 
             onestar_layer,
             twostar_layer,
             threestar_layer,
