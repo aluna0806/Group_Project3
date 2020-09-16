@@ -26,7 +26,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 ​
 @app.route('/api/city_cuisine')
 @cross_origin()
-def citi_info():
+def city_cuisine():
     cs_info = [doc for doc in db.yelp_db.find({}, {'_id': False})]
     cs_info_format = {"data": cs_info[0]}
     # print(cs_info)
@@ -34,7 +34,7 @@ def citi_info():
 ​
 @app.route('/api/yelp_Citiescount')
 @cross_origin()
-def citi_stat():
+def city_count():
     cs_status = [doc for doc in db.yelp_db.find({}, {'_id': False})]
     cs_status_format = {"data": cs_status[0]}
     return jsonify(cs_status_format)
