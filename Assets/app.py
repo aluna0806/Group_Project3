@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
-​
+
 # Import our pymongo library, which lets us connect our Flask app to our Mongo database.
 import pymongo
-​
+
 # Create connection variable
 conn = 'mongodb://localhost:27017'
 ​
