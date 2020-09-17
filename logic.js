@@ -1,19 +1,29 @@
 // Call Data and Start Functions Setup
 d3.csv("Data/yelpdata.csv", function (error, data) {
-    // data = data.filter(data => data.city.contains("Charlotte", "Phoenix", "Las Vegas", "Toronto"))
-    data = data.filter(data => data.city.includes("Las Vegas" && "Charlotte"))
+    lasvegasdata = data.filter(data => data.city.includes("Las Vegas"))
+    charlottedata = data.filter(data => data.city.includes("Charlotte"))
+    torontodata = data.filter(data => data.city.includes("Toronto"))
+    phoenixdata = data.filter(data => data.city.includes("Phoenix"))
+    data = lasvegasdata.concat(charlottedata, torontodata, phoenixdata)
     console.log(data.length)
-    
-    // if(data = data.filter(data => data.city.includes("Las Vegas" && data.city.includes("Las Vegas")) {
-    //     console.log("yes");    
-    // }
 
+    // Markers Variables
     var onestar_markers = []
     var twostar_markers = []
     var threestar_markers = []
     var fourstar_markers = []
     var fivestar_markers = []
 
+    // var foodicon = L.icon({
+    //     iconUrl: "icon.svg",
+    //     iconSize: [38, 95],
+    //     iconAnchor: [data.latitude, data.longitude]
+    // })
+
+
+
+
+//   function to loop through ratings
     data.forEach(data => {
         if (data.stars >= 1 & data.stars < 2){
             var newMarker = L.marker([data.latitude, data.longitude])
@@ -21,8 +31,13 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
             onestar_markers.push(newMarker)
         }
         else if (data.stars >= 2 & data.stars < 3){
-            var newMarker = L.marker([data.latitude, data.longitude])
-            .bindPopup("Gordon Ramsey would be furious!");
+            var foodicon = helper.getIcon(
+                {icon: 'coffee',
+                markerColor: 'red'}
+            );
+            var newMarker = L.marker([data.latitude, data.longitude],
+                {icon: foodicon}).addTo(myMap)
+                .bindPopup("Gordon Ramsey would be furious!");
             twostar_markers.push(newMarker)
         }
         else if (data.stars >= 3 & data.stars < 4){
@@ -96,4 +111,5 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
 
     L.control.layers(baseMaps, overlayMaps, {collapsed: false}).addTo(myMap);
 
+ 
 });
