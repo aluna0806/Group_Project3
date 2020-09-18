@@ -6,7 +6,7 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     phoenixdata = data.filter(data => data.city.includes("Phoenix"))
     data = lasvegasdata.concat(charlottedata, torontodata, phoenixdata)
     console.log(data.length)
-
+    data = data
     // Markers Variables
     var onestar_markers = []
     var twostar_markers = []
@@ -14,44 +14,77 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     var fourstar_markers = []
     var fivestar_markers = []
 
-    // var foodicon = L.icon({
-    //     iconUrl: "icon.svg",
-    //     iconSize: [38, 95],
-    //     iconAnchor: [data.latitude, data.longitude]
-    // })
-
-
-
+    // Icons Objects
+    onestar_icon =  L.ExtraMarkers.icon({
+        icon: "ion-fork",
+        iconColor: "red",
+        markerColor: "red",
+        shape: "circle",
+        iconSize: [60, 60]
+    });
+    twostar_icon =  L.ExtraMarkers.icon({
+        icon: "ion-fork",
+        iconColor: "orange",
+        markerColor: "orange",
+        shape: "circle",
+        iconSize: [60, 60]
+    });
+    threestar_icon = L.ExtraMarkers.icon({
+        icon: "ion-fork",
+        iconColor: "yellow",
+        markerColor: "yellow",
+        shape: "circle",
+        iconSize: [60, 60]
+    });
+    fourstar_icon = L.ExtraMarkers.icon({
+        icon: "ion-fork",
+        iconColor: "green",
+        markerColor: "green",
+        shape: "circle",
+        iconSize: [60, 60]
+      });
+    fivestar_icon = L.ExtraMarkers.icon({
+        icon: "ion-fork",
+        iconColor: "blue",
+        markerColor: "blue",
+        shape: "circle",
+        iconSize: [60, 60]
+    });
 
 //   function to loop through ratings
     data.forEach(data => {
         if (data.stars >= 1 & data.stars < 2){
-            var newMarker = L.marker([data.latitude, data.longitude])
+            var newMarker = L.marker([data.latitude, data.longitude], {
+                icon: onestar_icon
+            })
             .bindPopup("");
             onestar_markers.push(newMarker)
         }
         else if (data.stars >= 2 & data.stars < 3){
-            var foodicon = helper.getIcon(
-                {icon: 'coffee',
-                markerColor: 'red'}
-            );
-            var newMarker = L.marker([data.latitude, data.longitude],
-                {icon: foodicon}).addTo(myMap)
-                .bindPopup("Gordon Ramsey would be furious!");
+            var newMarker = L.marker([data.latitude, data.longitude], {
+                icon: twostar_icon
+            })
+            .bindPopup("Gordon Ramsey would be furious!");
             twostar_markers.push(newMarker)
         }
         else if (data.stars >= 3 & data.stars < 4){
-            var newMarker = L.marker([data.latitude, data.longitude])
+            var newMarker = L.marker([data.latitude, data.longitude], {
+                icon: threestar_icon
+            })
             .bindPopup("");
             threestar_markers.push(newMarker)
         }
         else if (data.stars >= 4 & data.stars < 5){
-            var newMarker = L.marker([data.latitude, data.longitude])
+            var newMarker = L.marker([data.latitude, data.longitude], {
+                icon: fourstar_icon
+            }) 
             .bindPopup("Gordon Ramsey Approves!");
             fourstar_markers.push(newMarker)
         }
         else if (data.stars >= 5){
-            var newMarker = L.marker([data.latitude, data.longitude])
+            var newMarker = L.marker([data.latitude, data.longitude], {
+                icon: fivestar_icon
+            })
             .bindPopup("")
             fivestar_markers.push(newMarker)
         }
@@ -110,6 +143,24 @@ d3.csv("Data/yelpdata.csv", function (error, data) {
     });
 
     L.control.layers(baseMaps, overlayMaps, {collapsed: false}).addTo(myMap);
+
+    // Set Up Legend
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend"), 
+        starsrating = [1, 2, 3, 4, 5];
+
+        div.innerHTML += "<h3>Ratings</h3>"
+
+        for (var i = 1; i < starsrating.length; i++) {
+            div.innerHTML +=
+                '<i style="background: ' + chooseColor(starsrating[i] + 1) + '"></i> ' +
+                starsrating[i] + (starsrating[i + 1] ? '&ndash;' + starsrating[i + 1] + '<br>' : '+');
+        }
+        return div;
+    };
+    // Add Legend to the Map
+    legend.addTo(myMap);
 
  
 });
