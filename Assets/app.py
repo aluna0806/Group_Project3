@@ -39,5 +39,12 @@ def city_count():
     cs_status_format = {"data": cs_status[0]}
     return jsonify(cs_status_format)
 ​
+@app.route('/api/city_facts')
+@cross_origin()
+def city_facts():
+    cs_status = [doc for doc in db.yelp_db.find({}, {'_id': False})]
+    cs_status_format = {"data": cs_status[0]}
+    return jsonify(cs_status_format)
+
 if __name__ == "__main__":
     app.run(debug=True)
