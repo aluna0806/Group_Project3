@@ -1,3 +1,8 @@
+// Define URLs for pulling in data from mongodb
+var barURL = "http://localhost:5000/api/yelp_Citiescount"
+var cityURL = "http://localhost:5000/api/city_facts"
+var visMap = "http://localhost:5000/api/city_cuisine"
+
 // create the function for the initial data rendering
 function init() {   
         // Select dropdown menu 
@@ -19,7 +24,7 @@ init();
 function getPlot(mycity) {
     // console.log(mycity)
     // read the data 
-    d3.json("Data/Yelp_CitiesCount3.json").then((data) => {
+    d3.json(barURL).then((data) => {
         console.log(data)
 
         // get the city data to the dropdwown menu
@@ -62,7 +67,7 @@ function getPlot(mycity) {
 // Create the function to get the necessary data for the City Info
 function getInfo(mycity) {
     // read the json file to get data
-    d3.json("Data/Yelp_CityFacts.json").then((data) => {
+    d3.json(cityURL).then((data) => {
         console.log(data)
 
         // get the metadata info for the City Info
@@ -84,7 +89,7 @@ function getInfo(mycity) {
 
 // Create the function to create the map below the bar chart
 function getMap(mycity) {
-    d3.csv("Data/Yelp_FinalScrub.csv").then((data) => {
+    d3.json(visMap).then((data) => {
     console.log(data)
 
         lasvegasdata = data.filter(data => data.city.includes("Las Vegas"))
